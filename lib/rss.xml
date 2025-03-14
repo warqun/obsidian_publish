@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[obsidian]]></title><description><![CDATA[Obsidian digital garden]]></description><link>http://github.com/dylang/node-rss</link><image><url>lib\media\favicon.png</url><title>obsidian</title><link></link></image><generator>Webpage HTML Export plugin for Obsidian</generator><lastBuildDate>Fri, 14 Mar 2025 07:59:35 GMT</lastBuildDate><atom:link href="lib\rss.xml" rel="self" type="application/rss+xml"/><pubDate>Fri, 14 Mar 2025 07:59:34 GMT</pubDate><ttl>60</ttl><dc:creator></dc:creator><item><title><![CDATA[SkillSystem]]></title><description><![CDATA[ 
+ SkillBaseMakerSkill_Creation 스킬 생성&nbsp;&nbsp;스킬 생성자 타입Skill_Execution 스킬 수행&nbsp;Skill_Transform_Modification 스킬 Transform 변경Skill_Impact 스킬 피격스킬 생성 위치 검사<br>관련노트<br>
+<a data-href="SkillCombinationSystem" href="spaces\home\프로젝트\project_vamsurlike\기획\systemdesign\skill\skillcombinationsystem.html" class="internal-link" target="_self" rel="noopener nofollow">SkillCombinationSystem</a><br><br>
+<br>생성자의 특정 상태/입력에 의해 생성하고 수행되는 일련의 기능
+<br>모든 스킬은 생성자의 스킬생성위치 + 정면방향을 입력받음
+<br><br>DerivedSkill은 일단 개념만 생각한 것<br><br><br>
+<br>Skill_Base는 Skill_Base 수행에 의한 Effect 대상에 따른 유형 구분을 가짐
+<br><br><br>이 문서에서 Effect는 스킬이 실행될 때 적용되는 모든 영향을 의미하며, 스킬의 결과로 발생하는 상태 변화, 데미지 적용, 버프/디버프 부여 등의 기능을 포함한다.<br><br><br>
+<br>생성자 외의 인스턴스에 Buff나 체력회복, DamageManager의 ObjectDamage를 생성하기 위한 SkillObject를 생성하고 수행하는 기능**을 의미한다.
+<br>SkillObject는 생성된 후 정해진 시간 동안 시간 흐름에 따라 지정된 조건/범위의 스킬 피격자 검사와 연출을 수행
+<br><br><br>
+<br>생성자가 타겟에게 Buff나 체력회복, DamageManager의 ObjectDamage를 생성하고 수행하는 기능을 의미한다.
+<br>이 유형 스킬의 SkillObject는 타겟위치에 단순한 이펙트를 생성하거나 이펙트가 타겟위치에 도착하는 정도의 연출을 한다.
+<br><br><br>
+<br>생성자 자기자신에게 Buff나 체력회복을 생성하고 수행하는 기능을 의미한다.
+<br>이 유형 스킬의 SkillObject는 생성자 자기자신에게 단순한 이펙트 연출만한다.
+<br><br><br>✅모든기능<br><br>✅SkillBase 유형별 기능<br><br><br>✅주요기능<br>
+<br>스킬의 생성 위치 및 방향 설정: 생성자의 위치, 타겟 방향 등을 기반으로 스킬이 생성될 위치를 결정.<br>
+
+<br>스킬 생성 방식 정의: 즉시 생성, 지연 생성 방식을 지원.<br>
+
+<br>SkillObject 생성 및 관리: 스킬 사용 시 SkillObject를 생성하여 오브젝트 풀링을 통해 관리.<br>
+
+<br>SkillCombinationSystem과 연동: 특정 조건에서 자동으로 후속 스킬을 생성하도록 설정 가능.
+<br><br><br>✅ 주요 기능<br>
+<br>타겟 변경 가능 여부: '고정'된 대상이 아닌 경우, 스킬 수행 중 타겟 변경이 가능하도록 설정.<br>
+
+<br>스킬 지속 시간 관리: 일정 시간 동안 지속되며, 특정 이벤트(버프 해제, 충돌 횟수 초과 등)에 따라 종료 가능.<br>
+
+<br>스킬 효과 반복 실행: 일정 주기마다 지속적으로 효과를 발생시키는 방식 지원(예: 도트 데미지, 지속 힐).<br>
+
+<br>스킬 애니메이션/이펙트 연동: 스킬 수행 시, 적절한 애니메이션 및 이펙트를 재생하여 연출 강화.<br>
+
+<br>- 스킬 중첩 처리: 동일한 스킬이 여러 개 적용될 경우 중첩 여부 및 효과 합산 방식 설정 가능.<br><br><br>✅ 주요 기능<br>
+<br>스킬 피격 대상 판정: 적/아군/전체 여부를 판별하여 효과 적용.<br>
+
+<br>스킬 피격 범위 설정: 원형, 직선, 부채꼴, 지정된 커스텀 범위 등을 활용하여 타격 범위 정의.<br>
+
+<br>DamageManager와 연계: 피격된 대상에게 ObjectDamage를 적용하여 체력 감소를 처리.<br>
+
+<br>피격 이벤트 발생: 피격 시, 특정 이펙트 재생, 타격 사운드 출력, 넉백 등의 추가 효과 적용 가능.<br>
+
+<br>피격 시 버프/디버프 적용: BuffBase를 활용하여 일정 시간 동안 버프/디버프를 대상에게 적용 가능.<br>
+
+<br>충돌 횟수 기반 종료 조건: 특정 횟수 이상 충돌하면 스킬이 종료되도록 설정 가능.
+<br><br><br>✅ 주요 기능<br>
+<br>스킬 이동: SkillObject가 일정 방향으로 이동하며, 이동 속도는 SkillObject의 기본 속도와 추가 스킬 속도 수치를 반영하여 결정됨.<br>
+
+<br>스킬 회전: SkillObject가 Y축을 중심으로 회전할 수 있으며, 이는 지속 시간 동안 설정된 회전 속도를 따름.<br>
+
+<br>스킬 확장: 지속 시간 동안 SkillObject의 크기가 점진적으로 확장될 수 있으며, X, Z 축을 기준으로 Scale 값이 조정됨.<br>
+
+<br>경로 기반 이동 지원: 특정 궤적을 따라 이동하는 기능(예: 곡선형 이동, 추적형 이동) 지원.<br>
+
+<br>Transform 변화 적용 조건 설정: 특정 이벤트(스킬 사용 후 일정 시간 경과, 피격 시, 조건 만족 시)에서 Transform 변화가 발생할 수 있도록 설정 가능.
+<br><br><br><br>
+<br>  스킬의 생성자는 플레이어 캐릭터와 몹, 보스몹 이기에 좀 더 구분이 필요할 것으로 예상
+<br> SkillSystem<br><br>✅ SkillObject제작 시 고려사항<br>
+<br>ObjectDamage를 생성하는 경우 연출과 스킬 피격자 검사 범위가 거의 일치해야한다.
+<br>스킬컨셉에 따라 여러가지의 Skill로 하나의 Skill을 만들 것이기에 적절한 단위로 끊어서 SkillObject를 Prefab화 해야한다.
+SkillBaseMaker<br><br><a href=".?query=tag:GameDesgin" class="tag" target="_blank" rel="noopener nofollow">#GameDesgin</a> <a href=".?query=tag:Unity" class="tag" target="_blank" rel="noopener nofollow">#Unity</a> <a href=".?query=tag:Project_VamSurLike" class="tag" target="_blank" rel="noopener nofollow">#Project_VamSurLike</a> <a href=".?query=tag:Project" class="tag" target="_blank" rel="noopener nofollow">#Project</a> <a href=".?query=tag:FlowChart" class="tag" target="_blank" rel="noopener nofollow">#FlowChart</a><br><br><br><br><br><br>예시) if { SkillCreateType == delay}<br><br><br><br><br><br><br><br><br><br><br><br>
+<br>스킬을 컨셉에 맞게 타겟 데이터 출력하기 위한 타입분류기능
+<br>크게 선정된 타겟이나 조건에 따라 생성한 타겟의 정보를 스킬 수행에 전송
+<br>선정된 타겟을 보내는 타입은 타겟은 실시간으로 위치가 바뀜
+<br>생성한 타겟을 보내는 타입은 타겟의 위치 변동없음
+<br><br><br><br>
+<br>대상 타겟과 타겟의 위치가 바뀌는 타입
+<br>Player와 Monster 태그 대상 스킬 용도로 타겟 정보를 Skill_Execution 스킬 수행에 전송
+<br><br>
+<br>대상 타겟은 바뀌지 않고 타겟의 위치는 실시간으로 바뀌는 타입
+<br>주로 생성자의 Skill_Pos나 현재 대상 타겟 정보를 Skill_Execution스킬 수행에 전송
+<br>타겟 정보 : 용도상 위치 데이터는 아닌 대상 타겟을 식별할 수 있는 정보를 보내야합니다.<br><br>
+<br>스킬 생성시 대상 타겟 현재 위치를 스킬 타겟으로 하는 타입
+<br>스킬 생성시 대상 타겟 현재 위치에 스킬 타겟 생성하고 이를 Skill_Execution스킬 수행에 전송
+<br><br>
+<br>스킬 생성 시 대상 타겟 현재 위치로 조건부 방위 연산을 하여 출력한 위치를 스킬 타겟으로 하는 타입 
+<br>연산을 통해 출력된 방위 거리에 스킬 타겟 생성하고 이를 Skill_Execution스킬 수행에 전송
+<br>조건부 방위 연산 : 생성자 위치에서 N방위로 나누어 입력 받은 위치에 해당 하는 방위의 지정된 거리를 곱한 값을 출력<br><a data-href="Conditional Directional Calculation(조건부 방위 연산)" href="spaces\home\프로젝트\project_vamsurlike\기획\systemdesign\skill\conditional-directional-calculation(조건부-방위-연산).html" class="internal-link" target="_self" rel="noopener nofollow">Conditional Directional Calculation(조건부 방위 연산)</a><br><br><br><br>스킬생성위치가 정상적으로<br>
+입력되었는지 검사<br><br><br><br><br>
+<br>스킬이 컨셉에 맞는 이동과 회전을 하는 것에 필요한 타겟의 위치 값을 받아오거나 관리하는 기능
+<br>스킬 생성의 스킬 타겟 타입에게서 입력받는 정보에 따른 타겟 위치를 스킬 Transform변경에 보냄
+<br><br>입력받는 정보형 : {현재 타겟, 생성자, 생성된 타겟 여부}<br>
+<br>생성자를 입력받은 경우 생성자의 타겟 선정 연산에서 타겟이 변경될 때마다.
+<br><br>입력받는 정보형 : {현재 타겟, 생성된 타겟 여부}<br>
+<br>
+<br><br>입력받는 정보형 : {현재 타겟, 생성된 타겟 여부}<br>
+<br>
+<br><br><br><br><br>스킬 피격대상 태그가<br>
+스킬고유 피격가능 태그조건에 해당함?<br><br>스킬에 피격된 대상에게 스킬 고유의 버프를 모두 부여<br>
+(아마 ObjectBuff같은 개념)<br><br>스킬 기본 데미지에 생성자(특히 플레이어)의<br>
+스테이터스와 버프 반영 후의 값을 입력한 ObjectDmage생성<br><br><br><br><br><br><br>
+<br>
+모든 스킬은 생성자의 스킬생성위치 + 정면방향을 입력받음
+
+<br>
+SkillObject를 위 입력된 위치와 방향으로 생성
+
+<br>
+이동, 회전, 확장기능을 타입별로 추가될 수 있게 한다.
+
+<br>각 기능의 실행순서는 아래와 같음.<br><br><br>
+<br>스킬 회전이 있을 때 : 최종 스킬 회전값을 Y축 값을 입력
+<br>스킬 회전이 없을 때 : 생성자 정면방향(Y축)입력
+<br><br>
+<br>스킬 이동이 있을 때 : 최종 스킬 이동값을 translate로 입력
+<br>스킬 이동이 없을 때 : 생성자위치를 입력
+<br><br>
+<br>스킬 확장이 있을 때 : 최종 스킬 확장값을 Scale 값을 입력
+<br>스킬 확장이 없을 때 : 기본 범위값에 항상 (1, 1, 1) 입력
+<br><br>각 Transform변경 기능유형 마다 확장과 추가에 따라 '타입'을 추가<br>아래는 작성자가 생각한 기능유형별 타입<br><br>
+<br>방향고정타입 : 스킬의 생성자 정면방향을 입력{default}
+<br>등속회전타입 : 스킬에 할당된 기본 회전 값
+<br>등속유도회전타입 : 스킬 목표 대상 방향과 현재의 정면방향의 합
+<br><br>
+<br>위치고정타입 : 스킬의 생성자위치를 translate 입력{default}
+<br>등속이동타입 : 스킬에 할당된 기본 이동 값
+<br><br>
+<br>범위고정타입 : 스킬의 Scale변화없음{default}
+<br>등속확장타입 : 스킬에 할당된 기본 확장 값
+]]></description><link>spaces\home\프로젝트\project_vamsurlike\기획\systemdesign\skill\skillsystem.html</link><guid isPermaLink="false">Spaces/Home/프로젝트/Project_VamSurLike/기획/SystemDesign/Skill/SkillSystem.canvas</guid><pubDate>Fri, 14 Mar 2025 07:31:43 GMT</pubDate></item></channel></rss>
